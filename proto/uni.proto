@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+option go_package = "pkg/pb";
+
+message Student {
+  int32 id = 1;
+  string name = 2;
+  string surname = 3;
+}
+
+message Group {
+  int32 number = 1;
+  repeated Student students = 2;
+}
+
+message Professor {
+  int32 id = 1;
+  string name = 2;
+  string surname = 3;
+  string subject = 4;
+}
+
+message Department {
+  string name = 1;
+  repeated Group groups = 2;
+  repeated Professor professors = 3;
+}
+
+
+message GetStudentRequest { int32 id = 1; }
+message GetStudentResponse { Student student = 1; }
+
+message GetGroupRequest { int32 number = 1; }
+message GetGroupResponse { repeated Student students = 1; }
+
+message GetProfessorRequest { int32 id = 1; }
+message GetProfessorResponse { Professor professor = 1; }
+
+message GetDepartmentRequest { string name = 1; }
+message GetDepartmentResponse { 
+  repeated Group groups = 1;
+  repeated Professor professors = 2;  
+}
+
+
+message GetStudentAllRequest {}
+message GetStudentAllResponse { repeated Student students = 1; }
+
+service StudentSearch {
+  rpc GetStudent(GetStudentRequest) returns (GetStudentResponse) {}
+}
+
+service GroupSearch {
+  rpc GetGroup(GetGroupRequest) returns (GetGroupResponse) {}
+}
+
+service ProfessorSearch {
+  rpc GetProfessor(GetProfessorRequest) returns (GetProfessorResponse) {}
+}
+
+service StudentsSearch {
+  rpc GetStudents(GetStudentAllRequest) returns (GetStudentAllResponse) {}
+}
+
+service DepartmentSearch {
+  rpc GetDepartment(GetDepartmentRequest) returns (GetDepartmentResponse) {}
+}
